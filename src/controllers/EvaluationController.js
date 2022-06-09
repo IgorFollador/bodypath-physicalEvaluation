@@ -21,6 +21,23 @@ class EvaluationController {
         })
     }
 
+    static readEvaluationsNamesByUser = (req, res) => {
+        
+    }
+
+    static updateEvaluation = (req, res) => {
+        let id = req.params.id;
+        let evaluation = req.body;
+        evaluation.updateById(req.body, (err) => {
+            if (err) {
+                res.status(500).send({
+                    message: `${err.message} - Error to update evaluation.`
+                })
+            } else {
+                res.status(200).send({ message: "Updated" })
+            }
+        })
+    }
 }
 
 module.exports = EvaluationController;
