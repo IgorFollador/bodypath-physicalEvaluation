@@ -1,9 +1,11 @@
+require('dotenv-safe').config();
+const { mapReduce } = require('../models/Evaluation.js');
 const Evaluations = require('../models/Evaluation.js');
-
+const axios = require('axios');
 class EvaluationController {
     static readAllEvaluations = (req, res) => {
-        Evaluations.find((err, Evaluations) => {
-            res.status(200).json(Evaluations);
+        Evaluations.find((err, evaluations) => {
+            res.status(200).json(evaluations);
        })
     }
    
@@ -21,14 +23,24 @@ class EvaluationController {
         })
     }
 
-    static readEvaluationsNamesByUser = (req, res) => {
-        
+    static readAllEvaluationsNames = (req, res) => {
+        axios
+            .get(`${process.env.API_CUSTOMER}/users/names/3`)
+            .then(res => {
+                console.log(`statusCode: ${res.status}`);
+                console.log(res.body);
+            })
+            .catch(error => {
+                console.error("erro");
+            });
+        res.status(200).json({message: "22"});
     }
+    
 
     static updateEvaluation = (req, res) => {
         let id = req.params.id;
         let evaluation = req.body;
-        evaluation.updateById(req.body, (err) => {
+        Evaluations.updateById(req.body, (err) => {
             if (err) {
                 res.status(500).send({
                     message: `${err.message} - Error to update evaluation.`
