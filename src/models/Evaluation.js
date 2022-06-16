@@ -39,7 +39,7 @@ const evaluationSchema = mongoose.Schema(
         bmr: {type: Number},
         // Relationship
         user_id: { type: Number }
-    }
+    }, { timestamps: true }
 );
 
 const evaluations = mongoose.model('evaluations', evaluationSchema);
