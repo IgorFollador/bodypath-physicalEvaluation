@@ -8,7 +8,41 @@ class EvaluationController {
             res.status(200).json(evaluations);
        })
     }
-   
+
+    static readAllEvaluationsByProfessionalUserId = (req, res) => {
+        const { id } = req.params;
+
+        Evaluations.find({ professionalId: id }, (err, evaluations) => {
+            res.status(200).json(evaluations);
+       })
+
+    }
+
+    static readAllEvaluationsNames = async (req, res) => {
+
+        await axios.get(`http://localhost:3001/users/names`)
+            .then(async response => {
+                const allNames  = response.data;
+                const allEvaluations = await Evaluations.find({});
+                allEvaluations.forEach(evaluation => {
+                    evaluation.username = "NÃO ENCONTRADO"
+                    allNames.forEach(user => {
+                        if(evaluation.user_id == user.id) {
+                            evaluation.username = user.firstName;
+                            console.log(evaluation);
+                        } else {
+                            evaluation.username = "NÃO ENCONTRADO"
+                        }
+                    });
+                });
+                res.status(200).json(allEvaluations);
+            })
+            .catch(error => {
+                console.error(error);
+                res.status(500).json({message: 'Error in read names'});
+            });    
+    }
+
     static createEvaluation = (req, res) => {
         let evaluation = new Evaluations(req.body);
 
@@ -22,20 +56,6 @@ class EvaluationController {
             }
         })
     }
-
-    static readAllEvaluationsNames = (req, res) => {
-        axios
-            .get(`${process.env.API_CUSTOMER}/users/names/3`)
-            .then(res => {
-                console.log(`statusCode: ${res.status}`);
-                console.log(res.body);
-            })
-            .catch(error => {
-                console.error("erro");
-            });
-        res.status(200).json({message: "22"});
-    }
-    
 
     static updateEvaluation = (req, res) => {
         let id = req.params.id;
