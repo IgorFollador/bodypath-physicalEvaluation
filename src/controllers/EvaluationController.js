@@ -10,8 +10,8 @@ class EvaluationController {
                         model: database.Users,
                         attributes: ['firstName', 'lastName']
                     },
-                    attributes: {exclude: ['professional_id', 'createdAt', 'updatedAt']}
-                  }
+                    attributes: {exclude: ['id', 'professional_id', 'createdAt', 'updatedAt']}
+                }
             });
             return res.status(200).json(allEvaluations);
         } catch (error) {
@@ -30,11 +30,11 @@ class EvaluationController {
                         model: database.Users,
                         attributes: ['firstName', 'lastName']
                     },
-                    attributes: {exclude: ['professional_id', 'createdAt', 'updatedAt']}
-                  },
-                  where: {
+                    attributes: {exclude: ['id', 'professional_id', 'createdAt', 'updatedAt']}
+                },
+                where: {
                     id: id
-                  }
+                }
             });
             return res.status(200).json(evaluation);
         } catch (error) {
@@ -53,11 +53,11 @@ class EvaluationController {
                         model: database.Users,
                         attributes: ['firstName', 'lastName']
                     },
-                    attributes: {exclude: ['professional_id', 'createdAt', 'updatedAt']}
-                  },
-                  where: {
+                    attributes: {exclude: ['id', 'professional_id', 'createdAt', 'updatedAt']}
+                },
+                where: {
                     professional_id: id
-                  }
+                }
             });
             return res.status(200).json(allEvaluations);
         } catch (error) {
@@ -76,12 +76,12 @@ class EvaluationController {
                         model: database.Users,
                         attributes: ['firstName', 'lastName']
                     },
-                    attributes: {exclude: ['professional_id', 'createdAt', 'updatedAt']}
-                  },
-                  attributes: ['id', 'createdAt', 'updatedAt'],
-                  where: {
+                    attributes: {exclude: ['id', 'professional_id', 'createdAt', 'updatedAt']}
+                },
+                attributes: ['id', 'createdAt', 'updatedAt'],
+                where: {
                     professional_id: id
-                  }
+                }
             });
             return res.status(200).json(allEvaluations);
         } catch (error) {
