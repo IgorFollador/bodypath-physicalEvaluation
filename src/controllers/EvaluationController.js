@@ -140,6 +140,14 @@ class EvaluationController {
             res.status(500).json({ message: error.message });
         }
     }
+
+    static async calculateBodyData(req, res) {
+        
+    }
+
+    static async readAllBodyData(req, res) {
+        const bodyData = calculate
+    }
 }
 
 module.exports = EvaluationController;

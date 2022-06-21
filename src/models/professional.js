@@ -14,10 +14,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'user_id'
       });
       Professional.hasMany(models.Clients, {
-        foreignKey: 'professional_id'
+        foreignKey: 'professional_id',
+        onDelete: 'CASCADE'
       });
       Professional.hasMany(models.Evaluations, {
-        foreignKey: 'professional_id'
+        foreignKey: 'professional_id',
+        onDelete: 'CASCADE'
       });
     }
   }

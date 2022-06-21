@@ -14,10 +14,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'profile_id'
       });
       User.hasMany(models.Professionals, {
-        foreignKey: 'user_id'
+        foreignKey: 'user_id',
+        onDelete: 'CASCADE'
       });
       User.hasMany(models.Clients, {
-        foreignKey: 'user_id'
+        foreignKey: 'user_id',
+        onDelete: 'CASCADE'
       })
     }
   }
