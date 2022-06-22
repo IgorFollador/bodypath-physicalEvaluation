@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'professional_id'
       });
       Client.hasMany(models.Evaluations, {
-        foreignKey: 'client_id'
+        foreignKey: 'client_id',
+        onDelete: 'CASCADE'
       })
     }
   }

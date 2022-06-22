@@ -1,5 +1,7 @@
 require('dotenv-safe').config();
 const database = require('../models');
+const bd = require('../services/BodyData'); 
+
 class EvaluationController {
     static async readAllEvaluations(req, res) {
         try {
@@ -98,9 +100,17 @@ class EvaluationController {
         if(professional === null) return res.status(404).json({ message: 'Professional not found'})
 
         try {
+            
+            formEvaluation.body_density = await bd.calculateBodyDensity(req.body);
+            formEvaluation.fat_percentage = await bd.calculateBodyFat(req.body);
+            formEvaluation.body_fat = await bd.calculateBodyFat(req.body);
+            formEvaluation.body_mass = await bd.calculateBodyMass(req.body);
+            formEvaluation.bmr = await bd.calculateBasalMetabolicRate(req.body);
+
             const evaluation = await database.Evaluations.create(formEvaluation);
             return res.status(201).json(evaluation);
         } catch (error) {
+            console.log(error);
             return res.status(500).json({ message: error.message });
         }
     }
@@ -140,6 +150,7 @@ class EvaluationController {
             res.status(500).json({ message: error.message });
         }
     }
+
 }
 
 module.exports = EvaluationController;
