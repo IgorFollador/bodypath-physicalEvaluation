@@ -100,15 +100,13 @@ class EvaluationController {
         if(professional === null) return res.status(404).json({ message: 'Professional not found'})
 
         try {
-
-            const bodyData = await this.calculateBodyData(formEvaluation);
-            console.log(bodyData);
-            formEvaluation.body_density = bodyData.bodyDensity;
-            formEvaluation.fat_percentage = bodyData.fatPercentage;
-            formEvaluation.body_fat = bodyData.bodyFat;
-            formEvaluation.body_mass = bodyData.bodyMass;
-            formEvaluation.bmr = bodyData.bmr;
             
+            formEvaluation.body_density = await bd.calculateBodyDensity(req.body);
+            formEvaluation.fat_percentage = await bd.calculateBodyFat(req.body);
+            formEvaluation.body_fat = await bd.calculateBodyFat(req.body);
+            formEvaluation.body_mass = await bd.calculateBodyMass(req.body);
+            formEvaluation.bmr = await bd.calculateBasalMetabolicRate(req.body);
+
             const evaluation = await database.Evaluations.create(formEvaluation);
             return res.status(201).json(evaluation);
         } catch (error) {
@@ -153,23 +151,6 @@ class EvaluationController {
         }
     }
 
-    static async calculateBodyData(evaluation) {
-        const bodyDensity = await bd.calculateBodyDensity(evaluation);
-        const fatPercentage = await bd.calculateFatPercentage(evaluation);
-        const bodyFat = await bd.calculateBodyFat(evaluation);
-        const bodyMass = await bd.calculateBodyMass(evaluation);
-        const bmr = await bd.calculateBasalMetabolicRate(evaluation);
-
-        const bodyData = {
-            bodyDensity: bodyDensity,
-            fatPercentage: fatPercentage,
-            bodyFat: bodyFat,
-            bodyMass: bodyMass,
-            bmr: bmr
-        };
-
-        return bodyData;
-    }
 }
 
 module.exports = EvaluationController;
