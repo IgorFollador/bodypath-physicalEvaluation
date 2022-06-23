@@ -2,45 +2,36 @@
 //source of calculations https://blog.dietbox.me/voce-sabe-como-calcular-massa-muscular-dos-pacientes/
 class BodyData {
 
-    static calculateBodyDensity(data) {
+    static calculateBodyDensity(data) { // g/cm3
         let sumFolds = data.subscapularis + data.triceps + data.breastplate + data.middle_axillary + data.supra_iliac + data.abdominal + data.mid_femoral;
 
-        return (1.112 - 0.00043499 * sumFolds + 0.00000055 * sumFolds * 2 - 0.00028826 * data.age).toFixed(4);
-        console.log(bodyDensity);
-        return bodyDensity.toFixed(1); // g/cm3
+        return parseFloat((1.112 - 0.00043499 * sumFolds + 0.00000055 * sumFolds * 2 - 0.00028826 * data.age).toFixed(4));
     }
 
-    static async calculateFatPercentage(data) {
+    static async calculateFatPercentage(data) { // %
         const bd = await this.calculateBodyDensity(data);
         
-        return (((4.95 / bd) - 4.50) * 100).toFixed(4);
-        console.log(fatPercentage);
-        return fatPercentage.toFixed(1); // %
+        return parseFloat((((4.95 / bd) - 4.50) * 100).toFixed(4));
     }
 
-    static async calculateBodyFat(data) {
+    static async calculateBodyFat(data) { // ~kg;
         const fatPercentage = await this.calculateFatPercentage(data);
         
-        return ((fatPercentage / 100) * data.weight).toFixed(4);
-        console.log(bodyFat);
-        return bodyFat.toFixed(1); // ~kg
+        return parseFloat(((fatPercentage / 100) * data.weight).toFixed(4)); 
     }
 
-    static async calculateBodyMass(data) {
+    static async calculateBodyMass(data) { // ~kg;
         const bf = await this.calculateBodyFat(data);
         
-        return (data.weight - bf).toFixed(4);
-        console.log(bodyMass);
-
-        return bodyMass.toFixed(1); // ~kg
+        return parseFloat((data.weight - bf).toFixed(4));
     }
 
-    static calculateBasalMetabolicRate(data) {
-        //Revised Harris-Benedict Equation (kcal)
+    static calculateBasalMetabolicRate(data) { //Revised Harris-Benedict Equation (kcal)
+        
         if(data.sex == 'M') { //calc for men
-            return ((13.397 * data.weight) + (4.799 * data.height) - (5.677 * data.age) + 88.362).toFixed(0);
+            return parseFloat(((13.397 * data.weight) + (4.799 * data.height) - (5.677 * data.age) + 88.362).toFixed(0));
         } else { //calc for women
-            return ((9.247 * data.weight) + (3.098 * data.height) - (4.330 * data.age) + 447.593).toFixed(0);
+            return parseFloat(((9.247 * data.weight) + (3.098 * data.height) - (4.330 * data.age) + 447.593).toFixed(0));
         }
     }
 }

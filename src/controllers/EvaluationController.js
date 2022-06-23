@@ -121,6 +121,13 @@ class EvaluationController {
         try {
             const evaluation = await database.Evaluations.findByPk(id);
             if(evaluation === null) return res.status(404).json({ message: 'Evaluation not found' });
+
+            formEvaluation.body_density = await bd.calculateBodyDensity(evaluation);
+            formEvaluation.fat_percentage = await bd.calculateBodyFat(evaluation);
+            formEvaluation.body_fat = await bd.calculateBodyFat(evaluation);
+            formEvaluation.body_mass = await bd.calculateBodyMass(evaluation);
+            formEvaluation.bmr = await bd.calculateBasalMetabolicRate(evaluation);
+
             await database.Evaluations.update(formEvaluation, {
                 where: {
                     id: Number(id)
