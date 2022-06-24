@@ -1,4 +1,3 @@
-require('dotenv-safe').config();
 const database = require('../models');
 const bd = require('../services/BodyData'); 
 
